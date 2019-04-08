@@ -1,4 +1,12 @@
-import demo from './modules/demo'
+import room from './modules/room'
+import scene from './modules/scene'
+import score from './modules/score'
+import user from './modules/user'
+import game from './modules/game'
+import report from './modules/report'
+import helper from './modules/helper'
+import log from './modules/log'
+import lottery from './modules/lottery'
 
 import layoutHeaderAside from '@/layout/header-aside'
 
@@ -46,7 +54,15 @@ const frameIn = [
       }
     ]
   },
-  demo
+  room,
+  scene,
+  score,
+  user,
+  game,
+  report,
+  helper,
+  log,
+  lottery
 ]
 
 /**

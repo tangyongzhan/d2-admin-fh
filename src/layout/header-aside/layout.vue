@@ -8,6 +8,23 @@
     <!-- 主体内容 -->
     <div class="d2-layout-header-aside-content" flex="dir:top">
       <!-- 顶栏 -->
+      <div flex-box="0"
+        style="font-size: 12px; display:none;"
+        flex>
+        <div flex-box="1">
+          今日总流水：5546888<br/>
+          今日总盈亏：23516
+        </div>
+        <div flex-box="1">
+          北京时间  周五<br/>
+          2019年3月27日
+          15:14:52
+        </div>
+        <div flex-box="1">
+          昵称：问的无多<br/>
+          ID：45658
+        </div>
+      </div>
       <div
         class="d2-theme-header"
         :style="{
@@ -26,12 +43,12 @@
         <!-- 顶栏右侧 -->
         <div class="d2-header-right" flex-box="0">
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
-          <d2-header-search @click="handleSearchClick"/>
+          <!-- <d2-header-search @click="handleSearchClick"/>
           <d2-header-error-log/>
           <d2-header-fullscreen/>
           <d2-header-theme/>
           <d2-header-size/>
-          <d2-header-user/>
+          <d2-header-user/> -->
         </div>
       </div>
       <!-- 下面 主体 -->

@@ -1,6 +1,6 @@
 <template>
   <div class="d2-container-full">
-    <div v-if="$slots.header" class="d2-container-full__header" ref="header">
+    <div v-if="$slots.header" class="d2-container-full__header" style="padding-bottom:0" ref="header">
       <slot name="header"/>
     </div>
     <div class="d2-container-full__body" ref="body">

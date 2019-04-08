@@ -1,7 +1,7 @@
 <template>
   <d2-container :filename="filename">
-    <template slot="header">Page 1 header</template>
-    Hello World
+    <template slot="header">helper plate2</template>
+    Hello World  helper plate2
   </d2-container>
 </template>
 

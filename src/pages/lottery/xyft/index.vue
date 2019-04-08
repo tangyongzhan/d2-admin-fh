@@ -1,13 +1,13 @@
 <template>
   <d2-container :filename="filename">
-    <template slot="header">Page 2 header</template>
-    Hello World
+    <template slot="header">lottery xyft</template>
+    Hello World  lottery xyft
   </d2-container>
 </template>
 
 <script>
 export default {
-  name: 'page2',
+  name: 'page1',
   data () {
     return {
       filename: __filename
