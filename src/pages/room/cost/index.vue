@@ -3,31 +3,31 @@
 
     <el-card class="box-card d2-mb-5 ">
       <div>
-        <el-form ref="form" :model="form" label-width="120px" style="width: auto;">
-          <el-form-item label="房间ID" size="medium">
-            <div>20109998</div>
+        <el-form ref="cost-form" :model="form" size="medium" label-width="120px" style="width: auto;">
+          <el-form-item label="房间ID" >
+            <div>{{form.rid}}</div>
           </el-form-item>
-          <el-form-item label="房卡数量" size="medium">
-            <div>5000 张</div>
+          <el-form-item label="房卡数量" >
+            <div>{{form.cardNumber}} 张</div>
           </el-form-item>
-          <el-form-item label="到期时间" size="medium">
-            <div>2019-03-04 <el-button round size="mini" type="danger" plain disabled>已到期</el-button></div>
+          <el-form-item label="到期时间" >
+            <div>{{form.date}} <el-button round  type="danger" plain  size="mini" disabled>已到期</el-button></div>
           </el-form-item>
           <el-form-item label="开通彩种">
-            <el-button size="mini" round disabled type="success" v-for="(item, index) in form.type" :key="index">{{item}}</el-button>
+            <el-button class="d2-mg-5"  round disabled type="success" size="mini" v-for="(item, index) in form.types" :key="index">{{item}}</el-button>
           </el-form-item>
-          <el-form-item label="续费套餐"  size="medium">
+          <el-form-item label="续费套餐"  >
               <div style="margin-top: 0px">
-                <el-col class="d2-pb-5"><el-radio v-model="form.radio8" label="1" border size="medium">1天（1天）&nbsp;&nbsp;&nbsp;&nbsp;10张房卡</el-radio></el-col>
-                <el-col class="d2-pb-5"><el-radio v-model="form.radio8" label="2" border size="medium">月卡（30天）&nbsp;&nbsp;&nbsp;&nbsp;300张房卡</el-radio></el-col>
-                <el-col class="d2-pb-5"><el-radio v-model="form.radio8" label="3" border size="medium">季卡（90天）&nbsp;&nbsp;&nbsp;&nbsp;900张房卡</el-radio></el-col>
-                <el-col class="d2-pb-5"><el-radio v-model="form.radio8" label="4" border size="medium">半年卡（180天）&nbsp;&nbsp;&nbsp;&nbsp;1800张房卡</el-radio></el-col>
+                <el-col class="d2-pb-5"><el-radio v-model="form.cost" label="1" border >1天（1天）&nbsp;&nbsp;&nbsp;&nbsp;10张房卡</el-radio></el-col>
+                <el-col class="d2-pb-5"><el-radio v-model="form.cost" label="2" border >月卡（30天）&nbsp;&nbsp;&nbsp;&nbsp;300张房卡</el-radio></el-col>
+                <el-col class="d2-pb-5"><el-radio v-model="form.cost" label="3" border >季卡（90天）&nbsp;&nbsp;&nbsp;&nbsp;900张房卡</el-radio></el-col>
+                <el-col class="d2-pb-5"><el-radio v-model="form.cost" label="4" border >半年卡（180天）&nbsp;&nbsp;&nbsp;&nbsp;1800张房卡</el-radio></el-col>
               </div>
-              <div>需要房卡: 300张！</div>
+              <div>需要房卡: <span style="color: red;"> {{selecItem[form.cost] }} </span>张！</div>
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">续费</el-button>
+            <el-button type="primary" @click="onSubmit('cost-form')">续费</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -41,39 +41,55 @@ export default {
   name: 'page1',
   data () {
     return {
-      imageUrl: '',
       filename: __filename,
+      selecItem: {
+        '1': 10,
+        '2': 300,
+        '3': 900,
+        '4': 1800
+      },
       form: {
-        id: 123,
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        radio8: '1',
-        type: [
-          '北京赛车',
-          '幸运飞艇',
-          '幸运F1',
-          '重庆时时彩',
-          'pc蛋蛋',
-          '百家乐'
-        ],
-        resource: '',
-        desc: ''
+        rid: '',
+        cardNumber: '',
+        date: '',
+        cost: '',
+        types: []
       }
     }
   },
-  methods: {
+  computed: {
 
+  },
+  created () {
+    this.getData()
+  },
+  methods: {
+    getData () {
+      this.$ajax.get('/api/room/cost/get')
+        .then(res => {
+          let { data, code } = res.data
+          this.form = data.form
+        }).catch(err => {
+          this.$message.error('获取数据失败')
+        })
+    },
     onSubmit () {
       console.log('submit!')
+      this.$ajax.post('/api/room/cost/update', { ...this.form })
+        .then(res => {
+          this.$message.error('续费成功')
+        }).catch(err => {
+          this.$message.error('续费不成功')
+        })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .el-button{
+    margin: 2px;
+  }
 
   .form-item-box {
     border: 1px solid #eee;

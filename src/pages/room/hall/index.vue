@@ -2,14 +2,14 @@
   <d2-container :filename="filename">
     <!-- <template slot="header">room hall</template> -->
 
-    <div class="card-item" v-for="(item , index) in items" :key="index">
+    <div class="card-item" v-for="(item , index) in roomList" :key="index">
       <el-card :body-style="{ padding: '0px' }" >
         <div class="d2-p-10" flex>
           <div class="card-item_image" flex-box="0">
-            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+            <img :src="item.src" class="image">
           </div>
           <div  class="card-item_switch" flex-box="1" justify="center">
-            <span>{{ form.switch ? "开" : "关" }} &nbsp;</span> <el-switch v-model="form.switch"></el-switch>
+            <span>{{ item.status ? "开" : "关" }} &nbsp;</span> <el-switch @change="changeRoomStatus(item)" v-model="item.status"></el-switch>
           </div>
         </div>
       </el-card>
@@ -19,52 +19,36 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
+
 export default {
   name: 'page1',
   data () {
     return {
-      filename: __filename,
-      form: {
-        switch: true
-      },
-      items: [
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        },
-        {
-          game: 'A',
-          status: 1
-        }
-      ]
+      filename: __filename
+    }
+  },
+  computed: {
+    ...mapState('fhgame/room', [
+      'roomList'
+    ])
+  },
+  created: function () {
+    this.getData()
+  },
+  methods: {
+    ...mapMutations({
+      listClean: 'fhgame/room/clean'
+    }),
+    ...mapActions({
+      setRoomStatus: 'fhgame/room/setRoomStatus',
+      getRoomList: 'fhgame/room/getRoomList'
+    }),
+    getData () {
+      this.getRoomList()
+    },
+    changeRoomStatus (item) {
+      this.setRoomStatus({ item })
     }
   }
 }
@@ -107,22 +91,4 @@ export default {
     align-items: center;
     justify-content: flex-end;
   }
-
-  // .bg-purple-dark {
-  //   background: #99a9bf;
-  // }
-  // .bg-purple {
-  //   background: #d3dce6;
-  // }
-  // .bg-purple-light {
-  //   background: #e5e9f2;
-  // }
-  // .grid-content {
-  //   border-radius: 4px;
-  //   min-height: 36px;
-  // }
-  // .row-bg {
-  //   padding: 10px 0;
-  //   background-color: #f9fafc;
-  // }
 </style>
